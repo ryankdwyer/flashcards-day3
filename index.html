@@ -7,27 +7,30 @@
         <link rel="stylesheet" type="text/css" href="css/style.css" />
     </head>
     <body ng-app="flashCards">
-        <div ng-include="'templates/stats.html'"></div>
-        <div ng-controller="MainController">
 
+        <div ng-controller="MainController">
+            <div ng-include="'templates/stats.html'" ng-show='isLoaded'></div>
             <button ng-repeat="category in categories" class="category-button"
             ng-click="getCategoryCards(category)" ng-class="{active: category == currentCategory}">
                 {{ category }}
             </button>
-            <button class="category-button" ng-click="toggleCheat()" ng-class="{active: cheatMode}">
+            <!-- <button class="category-button" ng-click="toggleCheat()" ng-class="{active: cheatMode}">
                 {{ cheatText }} Cheat Mode 
-            </button>
-            <div
-                ng-repeat="flashCard in flashCards | orderBy : 'question'"
-                class="flash-card">
+            </button> -->
+            <loader ng-show='!isLoaded'></loader>
+            
+            <flash-card card='flashCard' ng-show='isLoaded' ng-repeat="flashCard in flashCards"></flash-card>
+<!-- 
                 <h3>{{ flashCard.category }}</h3>
+
         	    <h1>{{ flashCard.question | uppercase }}</h1>
-        	    <ul class="flash-card-answers">
-        	    	<li ng-if="cheatMode"
+
+        	    <ul class="flash-card-answers"> -->
+        	    	<!-- <li ng-if="cheatMode"
         	    		ng-repeat="answer in flashCard.answers | cheat"
         	    		class="flash-card-answer"
-        	    		ng-click="answerQuestion(answer, flashCard)">{{ answer.text }}</li>
-                    <li ng-if="!cheatMode"
+        	    		ng-click="answerQuestion(answer, flashCard)">{{ answer.text }}</li> -->
+<!--                     <li ng-if="!cheatMode"
                         ng-repeat="answer in flashCard.answers"
                         class="flash-card-answer"
                         ng-click="answerQuestion(answer, flashCard)">{{ answer.text }}</li>
@@ -38,8 +41,8 @@
         	    	ng-show="flashCard.answered">
         	        <span ng-show="flashCard.answeredCorrectly">Yeah, you got it right!</span>
         	        <span ng-show="!flashCard.answeredCorrectly">Nope, you got it wrong.</span>
-        	    </h2>
-        	</div>
+        	    </h2> -->
+
         </div>
     	<script src="js/lib/angular.js"></script>
     	<script src="js/app.js"></script>
@@ -47,6 +50,8 @@
         <script src="js/factories/ScoreFactory.js"></script>
     	<script src="js/controllers/main.controller.js"></script>
         <script src="js/controllers/stats.controller.js"></script>
+        <script src="js/directives/loader/loader.js"></script>
+        <script src="js/directives/flash-card.js"></script>
 
 
 

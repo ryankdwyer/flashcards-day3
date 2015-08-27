@@ -2,24 +2,28 @@ app.controller('MainController', function ($scope, FlashCardsFactory, ScoreFacto
   FlashCardsFactory.getFlashCards()
   .then(function (flashCardsArray) {
     $scope.flashCards = flashCardsArray;
+    $scope.isLoaded = true;    
   });
 
+  $scope.isLoaded = false;
   $scope.currentCategory = 'All';
   $scope.cheatMode = false;
   $scope.cheatText = 'Enable';
 
   $scope.getCategoryCards = function (category) {
+    $scope.isLoaded = false;
     $scope.currentCategory = category;
     FlashCardsFactory.getFlashCards(category)
     .then(function (flashCardsArray) {
       $scope.flashCards = flashCardsArray;
+      $scope.isLoaded = true;
     });
-  }
+  };
 
   $scope.toggleCheat = function() {
     $scope.cheatMode = $scope.cheatMode ? false : true;
     $scope.cheatText = $scope.cheatMode ? 'Disable' : 'Enable';
-  }
+  };
 
   $scope.categories = [
       'MongoDB',
@@ -29,13 +33,7 @@ app.controller('MainController', function ($scope, FlashCardsFactory, ScoreFacto
       'All'
   ];
 
-  $scope.answerQuestion = function (answer, flashCard) {
-    if (!flashCard.answered) {
-      flashCard.answered = true;
-      flashCard.answeredCorrectly = answer.correct;
-      flashCard.answeredCorrectly ? ScoreFactory.correct++ : ScoreFactory.incorrect++;
-    }
-  }
+
 
 });
 
