@@ -1,4 +1,3 @@
-
 <div class="flash-card">
 <h3>{{ card.category }}</h3>
 <h1>{{ card.question | uppercase }}</h1>
@@ -11,4 +10,8 @@
     <span ng-show="card.answeredCorrectly">Yeah, you got it right!</span>
     <span ng-show="!card.answeredCorrectly">Nope, you got it wrong.</span>
 </h2>
+<br>
+<br>
+<button type='button' ng-click="edit = !edit">EDIT</button>
+<edit-card ng-show="edit"></edit-card>
 </div>

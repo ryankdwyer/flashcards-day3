@@ -1,21 +1,25 @@
 app.controller('MainController', function ($scope, FlashCardsFactory, ScoreFactory) {
-  FlashCardsFactory.getFlashCards()
-  .then(function (flashCardsArray) {
-    $scope.flashCards = flashCardsArray;
-    $scope.isLoaded = true;    
-  });
-
+  
   $scope.isLoaded = false;
   $scope.currentCategory = 'All';
   $scope.cheatMode = false;
   $scope.cheatText = 'Enable';
+  
+  FlashCardsFactory.getFlashCards()
+  .then(function (flashCardsArray) {
+    FlashCardsFactory.flashCards = flashCardsArray;
+    $scope.flashCards = FlashCardsFactory.flashCards;
+    $scope.isLoaded = true;    
+  });
+
 
   $scope.getCategoryCards = function (category) {
     $scope.isLoaded = false;
     $scope.currentCategory = category;
     FlashCardsFactory.getFlashCards(category)
     .then(function (flashCardsArray) {
-      $scope.flashCards = flashCardsArray;
+      FlashCardsFactory.flashCards = flashCardsArray;
+      $scope.flashCards = FlashCardsFactory.flashCards;
       $scope.isLoaded = true;
     });
   };
@@ -33,14 +37,12 @@ app.controller('MainController', function ($scope, FlashCardsFactory, ScoreFacto
       'All'
   ];
 
-
-
 });
 
 app.filter('cheat', function() {
   return function(answers) {
     return answers.filter(function (answer) {
       return answer.correct;
-    })
-  }
-})
+    });
+  };
+});

@@ -8,5 +8,6 @@ app.factory('FlashCardsFactory', function ($http) {
                 return response.data;
             });
         },
+        flashCards: []
     };
 });

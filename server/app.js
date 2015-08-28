@@ -51,11 +51,16 @@ app.get('/cards', function (req, res) {
 app.post('/cards', function(req, res, next){
     FlashCardModel.create(req.body).then(function(flashCard){
         res.send(flashCard);
-    })
-    console.log(req.body);
-   
+    });
 });
 
-
+app.put('/cards', function(req, res, next){
+    console.log(req.body);
+    FlashCardModel.findByIdAndUpdate(req.body.id, req.body.card)
+    .then(function(flashCard){
+        console.log('updating...');
+        res.send(flashCard);
+    });
+});
 
 
