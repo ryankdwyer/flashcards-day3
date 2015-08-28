@@ -49,8 +49,11 @@ app.get('/cards', function (req, res) {
 });
 
 app.post('/cards', function(req, res, next){
+    FlashCardModel.create(req.body).then(function(flashCard){
+        res.send(flashCard);
+    })
     console.log(req.body);
-    res.end();
+   
 });
 
 

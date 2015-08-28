@@ -10,8 +10,8 @@
 
 <body ng-app="flashCards">
     <div ng-controller="NewCardController">
-        <form name='newCardForm'>
-            <pre>{{ newCardForm.answer1 | json }}</pre>
+        <form name='newCardForm' ng-submit="newCardForm.$valid && submit()">
+            <pre>{{ newCardForm.question | json }}</pre>
             <input type='text' name='question' ng-model='newCard.question' placeholder='Enter question:' required ng-minlength='15'>
             <span ng-show="newCardForm.question.$invalid && newCardForm.question.$dirty">Minimum question length - 15 characters.</span>
             <select name='category' ng-model='newCard.category' required>
@@ -29,19 +29,19 @@
                 </option>
             </select>
             <span ng-show="!newCardForm.category.$viewValue && submitted">Category is required</span>
-            <div ng-model='newCard.answer[0]'>
-                <input type='text' name='answer1' ng-model='newCard.answer[0].text' placeholder='Answer 1' required ng-maxlength='40'>
-                <input type='checkbox' name='checkbox1' ng-model='newCard.answer[0].correct'>
+            <div ng-model='newCard.answers[0]'>
+                <input type='text' name='answer1' ng-model='newCard.answers[0].text' placeholder='Answer 1' required ng-maxlength='40'>
+                <input type='checkbox' name='checkbox1' ng-model='newCard.answers[0].correct'>
                 <span ng-show="newCardForm.answer1.$error.maxlength && submitted">Answer too long.</span>
             </div>
-            <div ng-model='newCard.answer[1]'>
-                <input type='text' name='answer2' ng-model='newCard.answer[1].text' placeholder='Answer 1' required ng-maxlength='40'>
-                <input type='checkbox' name='checkbox2' ng-model='newCard.answer[1].correct'>
+            <div ng-model='newCard.answers[1]'>
+                <input type='text' name='answer2' ng-model='newCard.answers[1].text' placeholder='Answer 1' required ng-maxlength='40'>
+                <input type='checkbox' name='checkbox2' ng-model='newCard.answers[1].correct'>
                 <span ng-show="newCardForm.answer2.$error.maxlength && submitted">Answer too long.</span>
             </div>
-            <div ng-model='newCard.answer[2]'>
-                <input type='text' name='answer3' ng-model='newCard.answer[2].text' placeholder='Answer 1' required ng-maxlength='40'>
-                <input type='checkbox' name='checkbox3' ng-model='newCard.answer[2].correct'>
+            <div ng-model='newCard.answers[2]'>
+                <input type='text' name='answer3' ng-model='newCard.answers[2].text' placeholder='Answer 1' required ng-maxlength='40'>
+                <input type='checkbox' name='checkbox3' ng-model='newCard.answers[2].correct'>
                 <span ng-show="newCardForm.answer3.$error.maxlength && submitted">Answer too long.</span>
             </div>
             <button type='submit' ng-click="submitted=true">Submit</button>
