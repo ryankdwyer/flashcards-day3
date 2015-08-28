@@ -1,61 +1,69 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <title>Flash Cards</title>
-        <!-- We've provided some styles for you, aren't we nice? -->
-        <link rel="stylesheet" type="text/css" href="css/reset.css" />
-        <link rel="stylesheet" type="text/css" href="css/style.css" />
-    </head>
-    <body ng-app="flashCards">
 
-        <div ng-controller="MainController">
-            <div ng-include="'templates/stats.html'" ng-show='isLoaded'></div>
-            <button ng-repeat="category in categories" class="category-button"
-            ng-click="getCategoryCards(category)" ng-class="{active: category == currentCategory}">
-                {{ category }}
-            </button>
-            <!-- <button class="category-button" ng-click="toggleCheat()" ng-class="{active: cheatMode}">
-                {{ cheatText }} Cheat Mode 
-            </button> -->
-            <loader ng-show='!isLoaded'></loader>
-            
-            <flash-card card='flashCard' ng-show='isLoaded' ng-repeat="flashCard in flashCards"></flash-card>
-<!-- 
-                <h3>{{ flashCard.category }}</h3>
+<head>
+    <title>Flash Cards</title>
+    <!-- We've provided some styles for you, aren't we nice? -->
+    <link rel="stylesheet" type="text/css" href="css/reset.css" />
+    <link rel="stylesheet" type="text/css" href="css/style.css" />
+</head>
 
-        	    <h1>{{ flashCard.question | uppercase }}</h1>
+<body ng-app="flashCards">
+    <div ng-controller="NewCardController">
+        <form name='newCardForm'>
+            <pre>{{ newCardForm.answer1 | json }}</pre>
+            <input type='text' name='question' ng-model='newCard.question' placeholder='Enter question:' required ng-minlength='15'>
+            <span ng-show="newCardForm.question.$invalid && newCardForm.question.$dirty">Minimum question length - 15 characters.</span>
+            <select name='category' ng-model='newCard.category' required>
+                <option value='MongoDB'>
+                    MongoDB
+                </option>
+                <option value='Express'>
+                    Express
+                </option>
+                <option value='Angular'>
+                    Angular
+                </option>
+                <option value='Node'>
+                    Node
+                </option>
+            </select>
+            <span ng-show="!newCardForm.category.$viewValue && submitted">Category is required</span>
+            <div ng-model='newCard.answer[0]'>
+                <input type='text' name='answer1' ng-model='newCard.answer[0].text' placeholder='Answer 1' required ng-maxlength='40'>
+                <input type='checkbox' name='checkbox1' ng-model='newCard.answer[0].correct'>
+                <span ng-show="newCardForm.answer1.$error.maxlength && submitted">Answer too long.</span>
+            </div>
+            <div ng-model='newCard.answer[1]'>
+                <input type='text' name='answer2' ng-model='newCard.answer[1].text' placeholder='Answer 1' required ng-maxlength='40'>
+                <input type='checkbox' name='checkbox2' ng-model='newCard.answer[1].correct'>
+                <span ng-show="newCardForm.answer2.$error.maxlength && submitted">Answer too long.</span>
+            </div>
+            <div ng-model='newCard.answer[2]'>
+                <input type='text' name='answer3' ng-model='newCard.answer[2].text' placeholder='Answer 1' required ng-maxlength='40'>
+                <input type='checkbox' name='checkbox3' ng-model='newCard.answer[2].correct'>
+                <span ng-show="newCardForm.answer3.$error.maxlength && submitted">Answer too long.</span>
+            </div>
+            <button type='submit' ng-click="submitted=true">Submit</button>
+        </form>
+    </div>
+    <div ng-controller="MainController">
+        <div ng-include="'templates/stats.html'" ng-show='isLoaded'></div>
+        <button ng-repeat="category in categories" class="category-button" ng-click="getCategoryCards(category)" ng-class="{active: category == currentCategory}">
+            {{ category }}
+        </button>
+        <loader ng-show='!isLoaded'></loader>
+        <flash-card card='flashCard' ng-show='isLoaded' ng-repeat="flashCard in flashCards"></flash-card>
+    </div>
+    <script src="js/lib/angular.js"></script>
+    <script src="js/app.js"></script>
+    <script src="js/factories/FlashCardsFactory.js"></script>
+    <script src="js/factories/ScoreFactory.js"></script>
+    <script src="js/controllers/main.controller.js"></script>
+    <script src="js/controllers/stats.controller.js"></script>
+    <script src="js/directives/loader/loader.js"></script>
+    <script src="js/directives/flash-card.js"></script>
+    <script src="js/controllers/newCardController.js"></script>
+</body>
 
-        	    <ul class="flash-card-answers"> -->
-        	    	<!-- <li ng-if="cheatMode"
-        	    		ng-repeat="answer in flashCard.answers | cheat"
-        	    		class="flash-card-answer"
-        	    		ng-click="answerQuestion(answer, flashCard)">{{ answer.text }}</li> -->
-<!--                     <li ng-if="!cheatMode"
-                        ng-repeat="answer in flashCard.answers"
-                        class="flash-card-answer"
-                        ng-click="answerQuestion(answer, flashCard)">{{ answer.text }}</li>
-        	    </ul>
-        	    <h2
-        	    	class="answer-feedback"
-        	    	ng-class="flashCard.answeredCorrectly ? 'correct' : 'incorrect'"
-        	    	ng-show="flashCard.answered">
-        	        <span ng-show="flashCard.answeredCorrectly">Yeah, you got it right!</span>
-        	        <span ng-show="!flashCard.answeredCorrectly">Nope, you got it wrong.</span>
-        	    </h2> -->
-
-        </div>
-    	<script src="js/lib/angular.js"></script>
-    	<script src="js/app.js"></script>
-        <script src="js/factories/FlashCardsFactory.js"></script>
-        <script src="js/factories/ScoreFactory.js"></script>
-    	<script src="js/controllers/main.controller.js"></script>
-        <script src="js/controllers/stats.controller.js"></script>
-        <script src="js/directives/loader/loader.js"></script>
-        <script src="js/directives/flash-card.js"></script>
-
-
-
-
-
-    </body>
 </html>
